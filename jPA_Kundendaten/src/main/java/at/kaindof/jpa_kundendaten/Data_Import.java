@@ -73,7 +73,6 @@ public class Data_Import {
             Long amountOfCustomers = (Long) countCustomers.getSingleResult();
             System.out.println("Customers imported: " + amountOfCustomers);
             return;
-
         }
     }
 
