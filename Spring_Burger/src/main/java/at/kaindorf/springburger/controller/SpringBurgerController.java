@@ -5,11 +5,10 @@ import at.kaindorf.springburger.beans.Ingredient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +18,7 @@ import java.util.stream.Collectors;
 @Controller
 @Slf4j
 @RequestMapping("/design")
+@SessionAttributes("designBurger")
 public class SpringBurgerController {
 
     private List<Ingredient> ingredients = Arrays.asList(
@@ -33,9 +33,9 @@ public class SpringBurgerController {
             new Ingredient("GAUD","Gauda", Ingredient.Type.CHEESE)
     );
 
-    /*public Ingredient getIngredientByName(String name){
+    public Ingredient getIngredientByName(String name){
         return ingredients.stream().filter(i -> i.getName().equals(name)).findFirst().get();
-    }*/
+    }
 
     @ModelAttribute
     public void addAttributes(Model model){
@@ -59,9 +59,12 @@ public class SpringBurgerController {
     }
 
     @PostMapping
-    public String processBurger(@ModelAttribute("designBurger") Burger burger){
+    public String processBurger(@Valid @ModelAttribute("designBurger") Burger burger, Errors errors){
         log.info(burger.toString());
-        return "designForm";
+        if(errors.hasErrors()){
+            log.info(errors.getObjectName()+ " " + errors.getAllErrors());
+            return "designForm";
+        }
+        return "redirect:/orders/current";
     }
-
 }
