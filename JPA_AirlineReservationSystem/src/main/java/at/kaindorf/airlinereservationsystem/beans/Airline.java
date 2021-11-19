@@ -1,33 +1,39 @@
 package at.kaindorf.airlinereservationsystem.beans;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @IdClass(AirlinePK.class)
+@NamedQueries({
+        @NamedQuery(name = "Airline.getAllAirlinesOfAircraftType", query = "SELECT a FROM Airline a JOIN a.aircraftList al WHERE al.aircraftType.typeName = (:name)")
+})
 public class Airline implements Serializable {
     @Id
+    @NonNull
     @Column(name = "airline_id")
     private Long airlineId;
 
     @Id
-    @Column(name = "airline_name", length = 40)
+    @NonNull
+    @Column(name = "airline_name", length = 255)
     private String airlineName;
 
-    @OneToMany(mappedBy = "airline")
-    @ToString.Exclude
-    private List<Flight> flights;
-
     @OneToMany(mappedBy = "airline", orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private List<Aircraft> aircraftList;
+    private List<Flight> flights = new ArrayList<>();;
+
+    @OneToMany(mappedBy = "airline")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Aircraft> aircraftList = new ArrayList<>();;
 }
