@@ -2,6 +2,7 @@ package at.kaindorf.springburger.controller;
 
 import at.kaindorf.springburger.beans.Burger;
 import at.kaindorf.springburger.beans.Ingredient;
+import at.kaindorf.springburger.repo.BurgerRepository;
 import at.kaindorf.springburger.repo.IngredientRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,8 @@ public class SpringBurgerController {
     private List<Ingredient> ingredients;
     @Autowired
     private IngredientRepository ingredientRepository;
-
+    @Autowired
+    private BurgerRepository burgerRepository;
 
     public Ingredient getIngredientByName(String name){
         return ingredients.stream().filter(i -> i.getName().equals(name)).findFirst().get();
@@ -61,6 +63,7 @@ public class SpringBurgerController {
             log.info(errors.getObjectName()+ " " + errors.getAllErrors());
             return "designForm";
         }
+        burgerRepository.save(burger);
         return "redirect:/orders/current";
     }
 }
