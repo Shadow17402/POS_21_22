@@ -21,7 +21,7 @@ public class SpringOrderController {
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
-    private BurgerRepository burgerRepository
+    private BurgerRepository burgerRepository;
 
     @GetMapping("/current")
     public String requestOrder(Model model, @SessionAttribute Burger designBurger){
