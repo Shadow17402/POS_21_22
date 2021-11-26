@@ -28,4 +28,5 @@ public class Burger implements Serializable {
     private List<Ingredient> ingredients = new ArrayList<>();
     @ManyToOne
     private Order order;
+
 }

@@ -13,7 +13,7 @@
         <div th:each="key : ${ingredients.keySet()}">
             <div>Choose your <span th:text="${key}">TYPE</span></div>
             <div th:each="ingredient : ${ingredients.get(key)}">
-                <input name="ingredients" type="checkbox" th:value="${ingredient.name}"/>
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
                 <span th:text="${ingredient.name}">INGREDIENT</span>
             </div>
         </div>
