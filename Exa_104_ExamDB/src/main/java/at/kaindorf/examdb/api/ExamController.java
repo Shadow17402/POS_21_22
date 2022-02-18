@@ -18,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/exam")
+@CrossOrigin(origins= {"*"}, methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH})
 public class ExamController {
 
     @Autowired
@@ -30,14 +31,14 @@ public class ExamController {
     private SubjectRepository subjectRepository;
 
     @GetMapping("/getExams")
-    public ResponseEntity<List<Exam>> getExamsFromStudent(@RequestParam("studentId") Long studentId) {
+    public ResponseEntity<List<Exam>> getExams (@RequestParam("studentId") Long studentId) {
         Student student = studentRepository.findById(studentId).get();
         List<Exam> exams = examRepository.findAllByStudent(student);
         return ResponseEntity.of(Optional.of(exams));
     }
 
     @PostMapping("/createExam")
-    public ResponseEntity<Exam> createExamForStudent (@RequestBody ExamRequest examRequest) {
+    public ResponseEntity<Exam> createExam (@RequestBody ExamRequest examRequest) {
         try {
             if (studentRepository.existsById(examRequest.getStudentId()) && subjectRepository.existsById(examRequest.getSubjectId())) {
                 Student student = studentRepository.findById(examRequest.getStudentId()).get();
@@ -46,7 +47,7 @@ public class ExamController {
                 Long examId = examRepository.getMaxExamId() + 1;
                 Exam exam = new Exam(examId, examRequest.getDateOfExam(), examRequest.getDuration(), student, subject);
                 examRepository.save(exam);
-                return ResponseEntity.ok().build();
+                return ResponseEntity.ok(exam);
             }
             return ResponseEntity.badRequest().build();
         } catch (Exception ex) {

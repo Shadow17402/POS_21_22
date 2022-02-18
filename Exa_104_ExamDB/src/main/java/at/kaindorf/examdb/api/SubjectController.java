@@ -1,7 +1,7 @@
 package at.kaindorf.examdb.api;
 
-import at.kaindorf.examdb.database.ClassnameRepository;
-import at.kaindorf.examdb.pojos.Classname;
+import at.kaindorf.examdb.database.SubjectRepository;
+import at.kaindorf.examdb.pojos.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/classname")
-public class ClassnameController {
+@RequestMapping("/subject")
+public class SubjectController {
 
     @Autowired
-    ClassnameRepository classnameRepository;
+    private SubjectRepository subjectRepository;
 
     @GetMapping
-    public ResponseEntity<List<Classname>> getAllClassnames() {
-        List<Classname> classnames = classnameRepository.findAll();
-        return ResponseEntity.ok(classnames);
+    public ResponseEntity<List<Subject>> getAllSubjects() {
+        List<Subject> subjects = subjectRepository.getAllSubjects();
+        return ResponseEntity.ok(subjects);
     }
 }

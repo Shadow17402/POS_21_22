@@ -9,8 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ExamRepository extends JpaRepository<Exam, Long> {
-
-
     @Query("select e from Exam e where e.student = :student")
     List<Exam> findAllByStudent(@Param("student") Student student);
 
