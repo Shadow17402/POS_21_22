@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Departments</title>
+</head>
+<body>
+    <h2>Administration for departments</h2>
+
+    <form th:action="@{/administration}" method="post">
+        <div>  Departments:</div>
+    <select name ="deptNo" onchange="submit();">
+        <option th:each="dept :${depts}"
+                th:value="${dept.deptNo}"
+                th:text="${dept.deptName}"
+                th:selected="${dept.deptName==selDept}">
+        </option>
+    </select>
+    </form>
+    <form th:action="@{/employee}" method="get">
+       Add new employee: <input type="submit" th:name="add" value="add Employee">
+    </form>
+<br>
+    <table th:border="1">
+        <tr>
+            <form th:action="@{/administration/sorted}" method="post">
+                <th>Name <input type="submit" value="&#8693;"></th>
+            </form>
+            <th>Birthdate</th>
+            <th>Gender</th>
+            <th>Employee number</th>
+        </tr>
+        <tr th:each="emp : ${employees}">
+            <form th:action="@{/administration/}+ ${emp.employeeNo}" method="post">
+                <td th:text="${emp.lastname} + ',' + ${emp.firstname}"></td>
+                <td th:text="${#temporals.format(emp.dateOfBirth, 'dd-MM-yyyy')}"></td>
+                <td th:text="${emp.gender}"></td>
+                <td th:text="${emp.employeeNo}"></td>
+                <td><input type="submit" th:name="id" th:value="remove"></td>
+            </form>
+        </tr>
+
+    </table>
+</body>
+</html>
