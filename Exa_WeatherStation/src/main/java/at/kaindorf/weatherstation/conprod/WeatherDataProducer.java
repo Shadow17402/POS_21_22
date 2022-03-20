@@ -24,22 +24,22 @@ public class WeatherDataProducer implements Runnable{
 
     @Override
     public void run() {
-        List<Weatherdata> weatherDataList = new ArrayList<>();
+        List<Weatherdata> dataList = new ArrayList<>();
         try {
-            weatherDataList = new ObjectMapper().readValue(PATH.toFile(), new TypeReference<>() {
+            dataList = new ObjectMapper().readValue(PATH.toFile(), new TypeReference<>() {
             });
         } catch (IOException e) {
             e.printStackTrace();
         }
         long period;
-        for (int i = 0; i < weatherDataList.size(); i++) {
+        for (int i = 0; i < dataList.size(); i++) {
             synchronized (dataQueue) {
-                if (i != weatherDataList.size()-1) {
-                    period = ChronoUnit.SECONDS.between(weatherDataList.get(i).getDateTime(), weatherDataList.get(i + 1).getDateTime()) * 1000;
+                if (i != dataList.size()-1) {
+                    period = ChronoUnit.SECONDS.between(dataList.get(i).getDateTime(), dataList.get(i + 1).getDateTime()) * 1000;
                 } else {
                     period = 0;
                 }
-                dataQueue.add(weatherDataList.get(i));
+                dataQueue.add(dataList.get(i));
             }
             try {
                 Thread.sleep(period);

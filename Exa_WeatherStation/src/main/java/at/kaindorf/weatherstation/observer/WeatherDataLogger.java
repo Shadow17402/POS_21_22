@@ -12,15 +12,15 @@ import java.time.format.DateTimeFormatter;
 public class WeatherDataLogger implements WeatherDataObserver{
 
     private static final DateTimeFormatter DTF = DateTimeFormatter.ISO_DATE_TIME;
-    private FileWriter fileWriter;
-    private BufferedWriter bufferedWriter;
-    private static File weatherDataFile = Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "weatherdata.csv").toFile();
+    private FileWriter fw;
+    private BufferedWriter bw;
+    private static File dataFile = Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "weatherdata.csv").toFile();
 
     public WeatherDataLogger() {
         try {
-            fileWriter = new FileWriter(weatherDataFile);
-            bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write("timestamp;temperature;pressure;humidity;windSpeed;windDirection\n");
+            fw = new FileWriter(dataFile);
+            bw = new BufferedWriter(fw);
+            bw.write("timestamp;temperature;pressure;humidity;windSpeed;windDirection\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -28,8 +28,8 @@ public class WeatherDataLogger implements WeatherDataObserver{
 
     public void close() {
         try {
-            fileWriter.close();
-            bufferedWriter.close();
+            fw.close();
+            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -39,8 +39,8 @@ public class WeatherDataLogger implements WeatherDataObserver{
     @Override
     public void update(Weatherdata weatherData) {
         try {
-            bufferedWriter.append(DTF.format(weatherData.getDateTime()) + ";" + weatherData.getTemperature() + ";" + weatherData.getPressure() + ";" + weatherData.getHumidity() + ";" + weatherData.getWindSpeed() + ";" + weatherData.getWindDirection()+ "\n");
-            bufferedWriter.flush();
+            bw.append(DTF.format(weatherData.getDateTime()) + ";" + weatherData.getTemperature() + ";" + weatherData.getPressure() + ";" + weatherData.getHumidity() + ";" + weatherData.getWindSpeed() + ";" + weatherData.getWindDirection()+ "\n");
+            bw.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

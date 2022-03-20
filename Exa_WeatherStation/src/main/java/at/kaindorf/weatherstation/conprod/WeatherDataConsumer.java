@@ -19,11 +19,9 @@ public class WeatherDataConsumer extends WeatherDataSubject implements Runnable{
         while (!Thread.interrupted()) {
             synchronized (dataQueue) {
                 weatherdata = dataQueue.poll();
-
                 if (weatherdata != null) {
                     notifyObservers();
                 }
-
                 try {
                     Thread.sleep(300);
                 } catch (InterruptedException e) {

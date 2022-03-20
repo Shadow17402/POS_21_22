@@ -16,16 +16,13 @@ public class WeatherDataGUI extends JFrame implements WeatherDataObserver{
     }
 
     private void initComponents() {
-        setSize(800, 400);
+        setSize(800, 600);
         Container container = getContentPane();
         container.setLayout(new GridLayout(1,1,4,4));
         weatherTextArea.setEditable(false);
-
-        JScrollPane scroll = new JScrollPane (weatherTextArea,
+        JScrollPane scrollpane = new JScrollPane (weatherTextArea,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-        container.add(scroll);
-        setLocationRelativeTo(null);
+        container.add(scrollpane);
     }
     @Override
     public void update(Weatherdata weatherData) {

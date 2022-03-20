@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 public class Weatherdata {
-
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDateTime dateTime;
     private float temperature;
@@ -24,5 +23,4 @@ public class Weatherdata {
     private float humidity;
     private int windSpeed;
     private int windDirection;
-
 }

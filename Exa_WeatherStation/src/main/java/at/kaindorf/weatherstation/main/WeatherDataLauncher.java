@@ -21,17 +21,14 @@ public class WeatherDataLauncher {
         WeatherDataPrinter weatherDataPrinter = new WeatherDataPrinter();
         WeatherDataGUI weatherDataGUI = new WeatherDataGUI();
 
-        //register concreteObservers
         weatherDataConsumer.register(weatherDataLogger);
         weatherDataConsumer.register(weatherDataPrinter);
         weatherDataConsumer.register(weatherDataGUI);
 
-        //starting threads
         Thread threadC = new Thread(weatherDataConsumer);
         threadC.start();
         Thread threadP = new Thread(weatherDataProducer);
         threadP.start();
-
     }
 
 }
