@@ -9,6 +9,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 public class Weatherdata {
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
-    private LocalDate dateTime;
+    private LocalDateTime dateTime;
     private float temperature;
     private float pressure;
     private float humidity;

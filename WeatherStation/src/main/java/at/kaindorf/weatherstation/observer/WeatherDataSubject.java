@@ -5,14 +5,15 @@ import java.util.List;
 
 public abstract class WeatherDataSubject {
 
-    protected List<WeatherDataObserver> obervers = new ArrayList<>();
+    protected List<WeatherDataObserver> observers = new ArrayList<>();
 
     public void register(WeatherDataObserver observer){
-        obervers.add(observer);
+        if(!observers.contains(observer))
+            observers.add(observer);
     }
 
     public void unregister(WeatherDataObserver observer){
-        obervers.remove(observer);
+        observers.remove(observer);
     }
 
     public abstract void notifyObservers();

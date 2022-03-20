@@ -7,16 +7,18 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class LocalDateDeserializer extends StdDeserializer<LocalDate> {
-    private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+public class LocalDateDeserializer extends StdDeserializer<LocalDateTime> {
+    private static final DateTimeFormatter DTF = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+
     protected LocalDateDeserializer() {
-        super(LocalDate.class);
+        super(LocalDateTime.class);
     }
 
     @Override
-    public LocalDate deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
-        return LocalDate.parse(jsonParser.getText(), DTF);
+    public LocalDateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
+        return LocalDateTime.parse(jsonParser.getText(), DTF);
     }
 }

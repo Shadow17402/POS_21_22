@@ -2,18 +2,48 @@ package at.kaindorf.weatherstation.observer;
 
 import at.kaindorf.weatherstation.beans.Weatherdata;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.time.format.DateTimeFormatter;
+
 public class WeatherDataLogger implements WeatherDataObserver{
 
-    private Weatherdata weatherdata;
-    private WeatherDataSubject subject;
+    private static final DateTimeFormatter DTF = DateTimeFormatter.ISO_DATE_TIME;
+    private FileWriter fileWriter;
+    private BufferedWriter bufferedWriter;
+    private static File weatherDataFile = Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "weatherdata.csv").toFile();
 
-    public WeatherDataLogger(WeatherDataSubject subject) {
-        this.subject = subject;
+    public WeatherDataLogger() {
+        try {
+            fileWriter = new FileWriter(weatherDataFile);
+            bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write("timestamp;temperature;pressure;humidity;windSpeed;windDirection\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    public void close() {
+        try {
+            fileWriter.close();
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
-    public void update(Weatherdata weatherdata) {
-        this.weatherdata = weatherdata;
+    public void update(Weatherdata weatherData) {
+        try {
+            bufferedWriter.append(DTF.format(weatherData.getDateTime()) + ";" + weatherData.getTemperature() + ";" + weatherData.getPressure() + ";" + weatherData.getHumidity() + ";" + weatherData.getWindSpeed() + ";" + weatherData.getWindDirection()+ "\n");
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
